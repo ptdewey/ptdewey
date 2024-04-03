@@ -14,7 +14,7 @@ My interests are:
 local ptdewey_stats = {
     total_repositories = 20,
     total_stars = 13,
-    total_commits_current_year = 107,
+    total_commits_current_year = 108,
     total_prs = 24,
     total_issues = 6,
     top_languages = {
