@@ -13,14 +13,14 @@ My interests are:
 ```lua
 local ptdewey_stats = {
     total_repositories = 20,
-    total_stars = 14,
-    total_commits_current_year = 108,
-    total_prs = 24,
+    total_stars = 16,
+    total_commits_current_year = 111,
+    total_prs = 25,
     total_issues = 6,
     top_languages = {
         go = "22.6%",
         python = "17.5%",
-        lua = "16.9%",
+        lua = "17.0%",
         r = "13.9%",
         shell = "11.1%",
         cuda = "11.0%"
