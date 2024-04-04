@@ -16,7 +16,7 @@ ptdewey.info = {
         "computational scientist"
     },
     interests = {
-        "analyzing real world data" 
+        "analyzing real world data",
         "building robust machine learning models",
         "building highly performant applications",
         "computational linear algebra",
@@ -25,12 +25,11 @@ ptdewey.info = {
     }
 }
 
-
 -- user stats
 ptdewey.stats = {
     total_repositories = 20,
     total_stargazers = 17,
-    total_commits_current_year = 116,
+    total_commits_current_year = 117,
     total_prs = 25,
     total_issues = 7,
     top_languages = {
@@ -42,5 +41,6 @@ ptdewey.stats = {
         cuda = "10.9%"
     }
 }
+return ptdewey
 ```
 <!--CONTENT_END-->
