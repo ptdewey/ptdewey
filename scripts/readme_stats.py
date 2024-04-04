@@ -138,7 +138,7 @@ def update_readme(stats):
         if start_index != -1 and end_index != -1:
             stats_block = readme_contents[start_index + len(start_delimiter):end_index].strip()
             # Prepare the stats block in Lua syntax
-            stats_str = '```lua\n' + extra_content + '\n' + stats_str + '\nreturn ptdewey\n```'
+            stats_str = '```lua\n' + extra_content + '\n' + stats_str + '\n\nreturn ptdewey\n```'
 
         # Replace the content between the delimiters with the new stats, including extra content
         if start_index != -1 and end_index != -1:
