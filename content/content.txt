@@ -14,7 +14,7 @@ ptdewey.info = {
         "computational scientist"
     },
     interests = {
-        "analyzing real world data" 
+        "analyzing real world data",
         "building robust machine learning models",
         "building highly performant applications",
         "computational linear algebra",
