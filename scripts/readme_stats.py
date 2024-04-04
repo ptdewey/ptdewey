@@ -90,7 +90,7 @@ def fetch_github_stats(username, nlangs):
 
     return {
         "total_repositories": data['allRepositories']['totalCount'],
-        "total_stars": total_stars,
+        "total_stargazers": total_stars,
         "total_commits_current_year": total_commits,
         "total_prs": total_prs,
         "total_issues": total_issues,
@@ -98,7 +98,7 @@ def fetch_github_stats(username, nlangs):
     }
 
 def dict_to_lua_table(username, d, indent=0, base_indent="  "):
-    lua_str = f"local {username}_stats = {{\n" if username else "{\n"
+    lua_str = f"-- user stats\n{username}.stats = {{\n" if username else "{\n"
     inner_indent = base_indent * (indent + 1)
     items = []
     for key, value in d.items():
@@ -115,34 +115,39 @@ def dict_to_lua_table(username, d, indent=0, base_indent="  "):
 
 def update_readme(stats):
     readme_path = 'README.md'
-    # stats_str = f'"{USERNAME}": {json.dumps(stats, indent=2)}'
+    content_path = 'content/content.txt'
+    # Generate stats string in Lua table format with proper indentation
     stats_str = dict_to_lua_table(USERNAME, stats, base_indent="    ")
+
+    # Check if content.txt exists and read its contents
+    extra_content = ""
+    if os.path.exists(content_path):
+        with open(content_path, 'r', encoding='utf-8') as content_file:
+            extra_content = content_file.read()
 
     with open(readme_path, 'r', encoding='utf-8') as file:
         readme_contents = file.read()
 
         # Find the start and end delimiters of the placeholder region
-        start_delimiter = '<!--STATS_START-->'
-        end_delimiter = '<!--STATS_END-->'
+        start_delimiter = '<!--CONTENT_START-->'
+        end_delimiter = '<!--CONTENT_END-->'
 
-        # Get the index of the start and end delimiters
         start_index = readme_contents.find(start_delimiter)
         end_index = readme_contents.find(end_delimiter)
 
-        # Check if the content between delimiters is already within a JSON code block
         if start_index != -1 and end_index != -1:
             stats_block = readme_contents[start_index + len(start_delimiter):end_index].strip()
-            # stats_str = '```json\n' + stats_str + '\n```'
-            stats_str = '```lua\n' + stats_str + '\n```'
+            # Prepare the stats block in Lua syntax
+            stats_str = '```lua\n' + extra_content + '\n\n' + stats_str + '\n```'
 
-        # Replace the content between the delimiters with the new stats
+        # Replace the content between the delimiters with the new stats, including extra content
         if start_index != -1 and end_index != -1:
             new_readme_contents = (
                 readme_contents[:start_index + len(start_delimiter)]
-                    + '\n'
-                    + stats_str
-                    + '\n'
-                    + readme_contents[end_index:]
+                + '\n'
+                + stats_str
+                + '\n'
+                + readme_contents[end_index:]
             )
 
             with open(readme_path, 'w', encoding='utf-8') as file:
