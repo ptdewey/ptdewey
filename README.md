@@ -7,21 +7,13 @@ local ptdewey = {}
 ptdewey.info = {
     name = "patrick dewey",
     education = {
-        masters = "computer science @ virginia tech",
-        bachelors = "computational modeling and data analytics @ virginia tech"
+        masters = "computer science at virginia tech",
+        bachelors = "computational modeling and data analytics at virginia tech"
     },
     experience = {
-        "software engineer",
-        "data scientist",
-        "computational scientist"
-    },
-    interests = {
-        "analyzing real world data",
-        "building robust machine learning models",
-        "building highly performant applications",
-        "computational linear algebra",
-        "linux configuration and shell scripting",
-        "neovim lua plugin development"
+        "software engineering",
+        "data science",
+        "computational science"
     }
 }
 
@@ -29,7 +21,7 @@ ptdewey.info = {
 ptdewey.stats = {
     total_repositories = 27,
     total_stargazers = 49,
-    total_commits_current_year = 195,
+    total_commits_current_year = 196,
     total_prs = 31,
     total_issues = 9,
     top_languages = {
