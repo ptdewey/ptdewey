@@ -1,4 +1,4 @@
--- initialize user profile
+-- user-profile.lua
 local ptdewey = {}
 
 -- user info
@@ -7,10 +7,5 @@ ptdewey.info = {
     education = {
         masters = "computer science at virginia tech",
         bachelors = "computational modeling and data analytics at virginia tech"
-    },
-    experience = {
-        "software engineering",
-        "data science",
-        "computational science"
     }
 }
