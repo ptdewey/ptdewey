@@ -6,7 +6,7 @@ from datetime import datetime
 GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN')
 USERNAME = os.environ.get('USERNAME')
 NLANGS = 6
-IGNORE_LIST = ['Jupyter Notebook', 'HTML', 'CSS', 'SCSS']
+IGNORE_LIST = ['Jupyter Notebook']
 
 def fetch_github_stats(username, nlangs):
     url = 'https://api.github.com/graphql'
