@@ -15,13 +15,13 @@ ptdewey.info = {
 -- user stats
 ptdewey.stats = {
     total_repositories = 34,
-    total_stargazers = 229,
-    total_commits_current_year = 705,
+    total_stargazers = 230,
+    total_commits_current_year = 711,
     total_prs = 54,
     total_issues = 15,
     top_languages = {
         go = "27.4%",
-        lua = "26.3%",
+        lua = "26.2%",
         python = "10.9%",
         shell = "8.2%",
         r = "7.4%",
