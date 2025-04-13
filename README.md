@@ -14,10 +14,10 @@ ptdewey.info = {
 
 -- user stats
 ptdewey.stats = {
-    total_repositories = 43,
-    total_stargazers = 273,
+    total_repositories = 44,
+    total_stargazers = 274,
     total_commits_current_year = 142,
-    total_prs = 68,
+    total_prs = 71,
     total_issues = 19,
     top_languages = {
         go = "29.5%",
