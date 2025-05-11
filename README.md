@@ -15,7 +15,7 @@ ptdewey.info = {
 -- user stats
 ptdewey.stats = {
     total_repositories = 45,
-    total_stargazers = 286,
+    total_stargazers = 287,
     total_commits_current_year = 168,
     total_prs = 74,
     total_issues = 24,
