@@ -1,11 +1,2 @@
 -- user-profile.lua
 local ptdewey = {}
-
--- user info
-ptdewey.info = {
-    name = "patrick dewey",
-    education = {
-        masters = "computer science at virginia tech",
-        bachelors = "computational modeling and data analytics at virginia tech"
-    }
-}
