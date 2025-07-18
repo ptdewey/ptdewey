@@ -1,5 +1,4 @@
 import requests
-import json
 import os
 from datetime import datetime
 
@@ -98,7 +97,7 @@ def fetch_github_stats(username, nlangs):
     }
 
 def dict_to_lua_table(username, d, indent=0, base_indent="  "):
-    lua_str = f"-- user stats\n{username}.stats = {{\n" if username else "{\n"
+    lua_str = f"{username}.stats = {{\n" if username else "{\n"
     inner_indent = base_indent * (indent + 1)
     items = []
     for key, value in d.items():
