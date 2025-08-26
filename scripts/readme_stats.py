@@ -4,7 +4,7 @@ from datetime import datetime
 
 GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN')
 USERNAME = os.environ.get('USERNAME')
-NLANGS = 6
+NLANGS = 5
 IGNORE_LIST = ['Jupyter Notebook']
 
 def fetch_github_stats(username, nlangs):
@@ -90,9 +90,9 @@ def fetch_github_stats(username, nlangs):
     return {
         "total_repositories": data['allRepositories']['totalCount'],
         "total_stargazers": total_stars,
-        "total_commits_current_year": total_commits,
-        "total_prs": total_prs,
-        "total_issues": total_issues,
+        "commits_current_year": total_commits,
+        # "total_prs": total_prs,
+        # "total_issues": total_issues,
         "top_languages": formatted_languages
     }
 
