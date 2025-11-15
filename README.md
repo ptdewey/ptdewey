@@ -4,13 +4,13 @@ local ptdewey = {}
 
 ptdewey.stats = {
     total_repositories = 38,
-    total_stargazers = 333,
-    commits_current_year = 401,
+    total_stargazers = 334,
+    commits_current_year = 402,
     top_languages = {
-        go = "32.2%",
+        go = "32.1%",
         gleam = "18.8%",
         lua = "17.7%",
-        fennel = "10.1%",
+        fennel = "10.2%",
         nix = "6.7%"
     }
 }
