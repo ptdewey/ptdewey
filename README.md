@@ -11,7 +11,7 @@ ptdewey.stats = {
         lua = "9.5%",
         gleam = "9.4%",
         fennel = "9.2%",
-        nix = "4.3%"
+        nix = "4.4%"
     }
 }
 
