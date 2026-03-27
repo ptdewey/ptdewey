@@ -4,7 +4,7 @@ local ptdewey = {}
 
 ptdewey.stats = {
     total_repositories = 54,
-    total_stargazers = 367,
+    total_stargazers = 366,
     commits_current_year = 312,
     top_languages = {
         go = "55.2%",
