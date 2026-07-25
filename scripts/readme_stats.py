@@ -20,7 +20,6 @@ def fetch_extra_repos(repos, nlangs):
         return []
 
     url = 'https://api.github.com/graphql'
-    headers = {"Authorization": "Bearer %s" % EXTRA_REPOS_TOKEN}
 
     fields = []
     for i, (owner, name) in enumerate(repos):
@@ -44,7 +43,7 @@ def fetch_extra_repos(repos, nlangs):
 
     query = "query ExtraRepos {\n" + "\n".join(fields) + "\n}\n"
 
-    response = requests.post(url, json={'query': query}, headers=headers)
+    response = requests.post(url, json={'query': query})
     response.raise_for_status()
 
     payload = response.json()
