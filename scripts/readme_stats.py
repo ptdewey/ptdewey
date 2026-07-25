@@ -6,6 +6,11 @@ GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN')
 USERNAME = os.environ.get('USERNAME')
 NLANGS = 5
 IGNORE_LIST = ['Jupyter Notebook']
+
+# Extra repos (e.g. org-owned) to fold into the star count and language
+# percentages. Add "owner/name" slugs here. Public repos are fetched with
+# the default GITHUB_TOKEN; for private repos set EXTRA_REPOS_TOKEN to a
+# PAT with read access. (owner, name) tuples are also accepted.
 EXTRA_REPOS = ["arabica-social/arabica"]
 
 def fetch_extra_repos(repos, nlangs):
@@ -15,9 +20,26 @@ def fetch_extra_repos(repos, nlangs):
     GraphQL request. Returns node dicts shaped like userRepositories nodes
     so they can be merged into the existing star/language aggregation.
     Repos that are missing or inaccessible come back null and are skipped.
+
+    Each entry in `repos` may be either an "owner/name" string or an
+    (owner, name) tuple.
     """
     if not repos:
         return []
+
+    normalized = []
+    for entry in repos:
+        if isinstance(entry, str):
+            if '/' not in entry:
+                print("Skipping invalid repo slug (expected 'owner/name'): %r" % entry)
+                continue
+            owner, name = entry.split('/', 1)
+            owner, name = owner.strip(), name.strip()
+        else:
+            owner, name = entry
+        if owner and name:
+            normalized.append((owner, name))
+    repos = normalized
 
     url = 'https://api.github.com/graphql'
 
