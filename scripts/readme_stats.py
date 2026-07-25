@@ -6,6 +6,62 @@ GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN')
 USERNAME = os.environ.get('USERNAME')
 NLANGS = 5
 IGNORE_LIST = ['Jupyter Notebook']
+EXTRA_REPOS = ["arabica-social/arabica"]
+
+def fetch_extra_repos(repos, nlangs):
+    """Fetch stargazerCount + languages for org/extra repos by owner/name.
+
+    Uses aliased repository() fields so all repos are fetched in a single
+    GraphQL request. Returns node dicts shaped like userRepositories nodes
+    so they can be merged into the existing star/language aggregation.
+    Repos that are missing or inaccessible come back null and are skipped.
+    """
+    if not repos:
+        return []
+
+    url = 'https://api.github.com/graphql'
+    headers = {"Authorization": "Bearer %s" % EXTRA_REPOS_TOKEN}
+
+    fields = []
+    for i, (owner, name) in enumerate(repos):
+        alias = "repo%d" % i
+        owner_safe = owner.replace('"', '\\"')
+        name_safe = name.replace('"', '\\"')
+        fields.append(
+            '  %s: repository(owner: "%s", name: "%s") {\n'
+            '    stargazerCount\n'
+            '    languages(first: %d, orderBy: {field: SIZE, direction: DESC}) {\n'
+            '      edges {\n'
+            '        size\n'
+            '        node {\n'
+            '          name\n'
+            '        }\n'
+            '      }\n'
+            '    }\n'
+            '  }'
+            % (alias, owner_safe, name_safe, nlangs)
+        )
+
+    query = "query ExtraRepos {\n" + "\n".join(fields) + "\n}\n"
+
+    response = requests.post(url, json={'query': query}, headers=headers)
+    response.raise_for_status()
+
+    payload = response.json()
+    if payload.get('errors'):
+        for err in payload['errors']:
+            print("GraphQL error fetching extra repo: %s" % err.get('message', err))
+
+    data = payload.get('data') or {}
+    nodes = []
+    for i, (owner, name) in enumerate(repos):
+        node = data.get("repo%d" % i)
+        if node is None:
+            print("Skipping %s/%s: not found or not accessible" % (owner, name))
+            continue
+        nodes.append(node)
+    return nodes
+
 
 def fetch_github_stats(username, nlangs):
     url = 'https://api.github.com/graphql'
@@ -60,17 +116,21 @@ def fetch_github_stats(username, nlangs):
     
     data = response.json()['data']['user']
 
+    extra_repo_nodes = fetch_extra_repos(EXTRA_REPOS, nlangs)
+
     total_stars = sum(repo['stargazerCount'] for repo in data['allRepositories']['nodes'])
+    total_stars += sum(repo['stargazerCount'] for repo in extra_repo_nodes)
     total_issues = data['issues']['totalCount']
     total_prs = data['pullRequests']['totalCount']
     total_commits = data['contributionsCollection']['totalCommitContributions']
     
     # Calculate total size for all languages across all repositories, excluding ignored languages
     total_language_size = sum(lang['size'] for repo in data['userRepositories']['nodes'] for lang in repo['languages']['edges'] if lang['node']['name'] not in IGNORE_LIST)
+    total_language_size += sum(lang['size'] for repo in extra_repo_nodes for lang in repo['languages']['edges'] if lang['node']['name'] not in IGNORE_LIST)
     
     # Aggregate language stats excluding ignored languages and calculate percentage
     language_stats = {}
-    for repo in data['userRepositories']['nodes']:
+    for repo in data['userRepositories']['nodes'] + extra_repo_nodes:
         for lang in repo['languages']['edges']:
             language_name = lang['node']['name']
             if language_name not in IGNORE_LIST:
@@ -86,7 +146,7 @@ def fetch_github_stats(username, nlangs):
     formatted_languages = {lang: f"{percent:.1f}%" for lang, percent in sorted_language_percentages[:nlangs]}
 
     return {
-        "total_repositories": data['allRepositories']['totalCount'],
+        "total_repositories": data['allRepositories']['totalCount'] + len(extra_repo_nodes),
         "total_stargazers": total_stars,
         "commits_current_year": total_commits,
         # "total_prs": total_prs,

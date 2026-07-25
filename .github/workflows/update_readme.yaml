@@ -26,7 +26,11 @@ jobs:
       env:
         USERNAME: ${{ github.actor }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: python scripts/readme_stats.py 
+        # Optional: PAT with read access to private EXTRA_REPOS (defined in
+        # scripts/readme_stats.py). Defaults to GITHUB_TOKEN, which can read
+        # public repos anywhere on GitHub.
+        EXTRA_REPOS_TOKEN: ${{ secrets.EXTRA_REPOS_TOKEN }}
+      run: python scripts/readme_stats.py
 
     - name: Commit and push if README changed
       run: |
