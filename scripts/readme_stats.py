@@ -33,9 +33,7 @@ def fetch_github_stats(username, nlangs):
         allRepositories: repositories(first: 100) {{
           totalCount
           nodes {{
-            stargazers {{
-              totalCount
-            }}
+            stargazerCount
           }}
         }}
         userRepositories: repositories(first: 100, ownerAffiliations: OWNER, isFork: false) {{
@@ -62,7 +60,7 @@ def fetch_github_stats(username, nlangs):
     
     data = response.json()['data']['user']
 
-    total_stars = sum(repo['stargazers']['totalCount'] for repo in data['allRepositories']['nodes'])
+    total_stars = sum(repo['stargazerCount'] for repo in data['allRepositories']['nodes'])
     total_issues = data['issues']['totalCount']
     total_prs = data['pullRequests']['totalCount']
     total_commits = data['contributionsCollection']['totalCommitContributions']
