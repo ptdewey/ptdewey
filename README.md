@@ -7,9 +7,9 @@ ptdewey.stats = {
     total_stargazers = 403,
     commits_current_year = 1039,
     top_languages = {
-        go = "46.4%",
-        typescript = "20.0%",
-        svelte = "14.4%",
+        go = "46.5%",
+        typescript = "20.1%",
+        svelte = "14.3%",
         css = "4.1%",
         nix = "3.6%"
     }
